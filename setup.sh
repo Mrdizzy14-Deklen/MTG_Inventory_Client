@@ -1,5 +1,8 @@
 #!/bin/bash
-python -m venv venv
+PYTHON_CMD=$(command -v python3 || command -v python)
+
+echo "Using $PYTHON_CMD to create virtual environment..."
+$PYTHON_CMD -m venv venv
 source venv/bin/activate
 pip install --upgrade pip
 if [ -f requirements.txt ]; then

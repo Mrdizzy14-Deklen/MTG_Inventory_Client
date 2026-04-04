@@ -15,7 +15,11 @@ load_dotenv(dotenv_path=config_path)
 
 # Load the API key from env var
 API_KEY = os.getenv("API_KEY")
-API_URL = "http://vm.deklenn.dev:8000"
+API_URL = "https://vm.deklenn.dev:443"
+
+username = os.getenv("USERNAME")
+password = os.getenv("PASSWORD")
+
 
 if not API_KEY:
     print(f"DEBUG: I am looking for the .env file at: {config_path.absolute()}")
@@ -94,15 +98,20 @@ def fetch_inventory():
     response = requests.get(url, headers=HEADERS)
     return response.json()
 
-username = input("Enter username: ")
-password = getpass.getpass("Password: ")
+def fetch_cards(args):
+    url = API_URL + "/inventory/user/cards"
+    payload = {"args": args}
+    response = requests.post(url, json=payload, headers=HEADERS)
+    return response.json()
+
+if not username:
+    username = input("Enter username: ")
+if not password:
+    password = getpass.getpass("Password: ")
 
 user_token = login(username, password)
 
-if user_token:
-
-    # Implement token
-    HEADERS["Authorization"] = f"Bearer {user_token}"
+def command_loop():
 
     running = True
     while running:
@@ -147,5 +156,12 @@ if user_token:
             running = False
         else:
             print("Unknown command")
+
+if user_token:
+
+    # Implement token
+    HEADERS["Authorization"] = f"Bearer {user_token}"
+    command_loop()
+
 else:
     print("Invalid login.")

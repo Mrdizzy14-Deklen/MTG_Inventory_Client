@@ -5,14 +5,13 @@ from dotenv import load_dotenv
 import requests
 import getpass
 
-# if getattr(sys, 'frozen', False):
-#     base_path = Path(sys.executable).parent.absolute()
-# else:
-#     base_path = Path(__file__).parent.absolute()
+if getattr(sys, 'frozen', False):
+    base_path = Path(sys.executable).parent.absolute()
+else:
+    base_path = Path(__file__).parent.absolute()
 
-# config_path = base_path / "config.txt"
-# load_dotenv(dotenv_path=config_path)
-load_dotenv(".env")
+config_path = base_path / "config.txt"
+load_dotenv(dotenv_path=config_path)
 
 # Load the API key from env var
 API_KEY = os.getenv("API_KEY")
@@ -157,24 +156,6 @@ def command_loop():
             running = False
         else:
             print("Unknown command")
-
-
-# def window_loop():
-
-#     root = tk.Tk()
-#     root.title("MTG Inventory")
-#     paned = tk.PanedWindow(root, orient=tk.HORIZONTAL)
-#     paned.pack(fill=tk.BOTH, expand=1)
-   
-#     scrollbar = tk.Scrollbar(paned)
-#     scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-#     paned.add(scrollbar)
-
-#     paned_vertical = tk.PanedWindow(paned, orient=tk.VERTICAL)
-#     paned.add(paned_vertical)
-
-#     root.mainloop()
-
 
 if user_token:
 
